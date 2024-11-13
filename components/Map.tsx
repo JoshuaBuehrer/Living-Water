@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { MapStyles } from "./MapStyles";
 
 declare global {
   interface Window {
@@ -8,115 +9,24 @@ declare global {
   }
 }
 
+const mapOptions = {
+  zoom: 12,
+  center: { lat: 38.47, lng: -89.93 },
+  mapTypeControl: false,
+  streetViewControl: false,
+  styles: MapStyles
+};
+
 export const Map: React.FC = () => {
   const mapRef = useRef<HTMLDivElement>(null);
-
-  const darkModeStyles = [
-    { elementType: "geometry", stylers: [{ color: "#212121" }] },
-    { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
-    { elementType: "labels.text.fill", stylers: [{ color: "#757575" }] },
-    { elementType: "labels.text.stroke", stylers: [{ color: "#212121" }] },
-    {
-      featureType: "administrative",
-      elementType: "geometry",
-      stylers: [{ color: "#757575" }],
-    },
-    {
-      featureType: "administrative.country",
-      elementType: "labels.text.fill",
-      stylers: [{ color: "#9e9e9e" }],
-    },
-    {
-      featureType: "administrative.land_parcel",
-      stylers: [{ visibility: "off" }],
-    },
-    {
-      featureType: "administrative.locality",
-      elementType: "labels.text.fill",
-      stylers: [{ color: "#bdbdbd" }],
-    },
-    {
-      featureType: "poi",
-      elementType: "labels.text.fill",
-      stylers: [{ color: "#757575" }],
-    },
-    {
-      featureType: "poi.business",
-      stylers: [{ visibility: "off" }],
-    },
-    {
-      featureType: "road",
-      elementType: "geometry.fill",
-      stylers: [{ color: "#2c2c2c" }],
-    },
-    {
-      featureType: "road",
-      elementType: "labels.text.fill",
-      stylers: [{ color: "#8a8a8a" }],
-    },
-    {
-      featureType: "road.arterial",
-      elementType: "geometry",
-      stylers: [{ color: "#373737" }],
-    },
-    {
-      featureType: "road.highway",
-      elementType: "geometry",
-      stylers: [{ color: "#3c3c3c" }],
-    },
-    {
-      featureType: "road.highway.controlled_access",
-      elementType: "geometry",
-      stylers: [{ color: "#4e4e4e" }],
-    },
-    {
-      featureType: "road.local",
-      elementType: "labels.text.fill",
-      stylers: [{ color: "#616161" }],
-    },
-    {
-      featureType: "transit",
-      stylers: [{ visibility: "off" }],
-    },
-    {
-      featureType: "water",
-      elementType: "geometry",
-      stylers: [{ color: "#000000" }],
-    },
-    {
-      featureType: "water",
-      elementType: "labels.text.fill",
-      stylers: [{ color: "#3d3d3d" }],
-    },
-  ];
-
-  const removeBusinessIcon = [
-    {
-      featureType: "poi.business",
-      stylers: [{ visibility: "off" }],
-    },
-  ]
 
 
   const initializeMap = () => {
     if (window.google && mapRef.current) {
-      
-      const mapOptions = {
-        zoom: 12,
-        center: { lat: 38.47, lng: -89.93 },
-        mapTypeControl: false,
-        streetViewControl: false,
-        styles: [
-            ...removeBusinessIcon,
-            ...darkModeStyles
-        ],
-        
-      };
 
-      // Initialize the map with options
       const map = new window.google.maps.Map(mapRef.current, mapOptions);
 
-     
+
       const locations = [
         { lat: 38.6, lng: -89.5 },
         { lat: 38.45, lng: -89.6 },
@@ -125,7 +35,7 @@ export const Map: React.FC = () => {
         { lat: 38.47, lng: -89.8 },
       ];
 
-     
+
       locations.forEach((location) => {
         new window.google.maps.Marker({
           position: location,
@@ -159,5 +69,15 @@ export const Map: React.FC = () => {
     }
   }, []);
 
-  return <div ref={mapRef} style={{ height: "500px", width: "100%" }} />;
+  return <div ref={mapRef}
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      height: "100vh",
+      width: "100vw",
+      margin: 0,
+      padding: 0,
+      overflow: "hidden",
+    }} />;
 };
