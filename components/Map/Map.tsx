@@ -8,18 +8,9 @@ import {
 } from "@react-google-maps/api";
 import { mapOptions } from "./MapOptions";
 import { Baptism } from "../API/Models/Baptism";
+import { BaptismMarker } from "./BaptismMarker";
 
 const center = { lat: 38.427159, lng: -89.910406 };
-
-const icon = {
-  //  url:"https://e7.pngegg.com/pngimages/38/957/png-clipart-water-drop-logo-drop-rain-blog-drops-television-blue.png",
-  path: 4,
-  scale: 6,
-  fillOpacity: 0.45,
-  strokeWeight: 4,
-  strokeColor: "#0000ff",
-  fillColor: "#0000ff",
-};
 
 type MapProps = { baptisms: Baptism[] };
 export const Map: React.FC<MapProps> = ({ baptisms }) => {
@@ -49,13 +40,7 @@ export const Map: React.FC<MapProps> = ({ baptisms }) => {
           options={mapOptions}
         >
           {baptisms.map((baptism) => (
-            <Marker
-              key={baptism.id}
-              position={{ lat: baptism.latitude, lng: baptism.longitude }}
-              title={`Baptism ID: ${baptism.id}`}
-              icon={icon}
-              animation={google.maps.Animation.DROP}
-            />
+            <BaptismMarker key={baptism.id} baptism={baptism} />
           ))}
         </GoogleMap>
       </div>

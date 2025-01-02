@@ -1,16 +1,14 @@
 import React, { use, useEffect } from "react";
 import { ColorTheme } from "../ColorTheme";
-import { useShimmerAnimation } from "../Hooks/useShimmerAnimation";
+
+const GOAL_BAPTISMS = 1000;
 
 type ProgressBarProps = {
   numBaptisms: number;
 };
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ numBaptisms }) => {
-  const goalBaptisms = 20;
-  const percentComplete = (numBaptisms / goalBaptisms) * 100;
-
-  useShimmerAnimation();
+  const percentComplete = (numBaptisms / GOAL_BAPTISMS) * 100;
 
   return (
     <div>
@@ -23,11 +21,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ numBaptisms }) => {
       >
         {percentComplete.toFixed(0)}% Complete
       </div>
-      <Bar
-        percentComplete={percentComplete}
-        numBaptisms={numBaptisms}
-        goalBaptisms={goalBaptisms}
-      />
+      <Bar percentComplete={percentComplete} numBaptisms={numBaptisms} />
     </div>
   );
 };
@@ -36,15 +30,10 @@ export default ProgressBar;
 
 type BarProps = {
   percentComplete: number;
-  goalBaptisms: number;
   numBaptisms: number;
 };
 
-const Bar: React.FC<BarProps> = ({
-  percentComplete,
-  goalBaptisms,
-  numBaptisms,
-}) => (
+const Bar: React.FC<BarProps> = ({ percentComplete, numBaptisms }) => (
   <div
     style={{
       background: ColorTheme.backgroundColorSecondary,
@@ -58,6 +47,7 @@ const Bar: React.FC<BarProps> = ({
       style={{
         width: `${percentComplete}%`,
         background: ColorTheme.primaryColorTertiary,
+        minWidth: "1rem",
         height: "100%",
         textAlign: "center",
         color: "#fff",
